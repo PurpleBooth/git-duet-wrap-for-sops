@@ -142,7 +142,7 @@ jobs:
         shell: bash
       - uses: actions/download-artifact@v2
       - id: get_version
-        run: 'echo ::set-output "name=VERSION::$(cat ./version)"'
+        run: 'echo ::set-output "name=VERSION::$(cat ./version/version)"'
         shell: bash
       - uses: actions/cache@v1
         with:
@@ -196,7 +196,7 @@ jobs:
         shell: bash
       - uses: actions/download-artifact@v2
       - id: get_version
-        run: 'echo ::set-output name=VERSION::$(cat ./version)'
+        run: 'echo ::set-output name=VERSION::$(cat ./version/version)'
         shell: bash
       - uses: actions-rs/toolchain@v1
         with:
