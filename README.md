@@ -5,6 +5,8 @@ is keep my Dotfiles in a repository, so I thought it might be a neat
 thing to keep my git duet authors files encrypted. This saves my pairs
 emails from being reveled to the world.
 
+I don't really intend anyone other than me use this.
+
 ## Setup
 
 I have it setup like this
