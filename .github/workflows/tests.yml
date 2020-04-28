@@ -114,7 +114,7 @@ jobs:
         env:
           VERSION: ${{ steps.semvers.outputs.v_major }}
         if: "contains(github.event.head_commit.message, 'BC BREAK')"
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v2
         with:
           name: version
           path: ./version/version
@@ -182,7 +182,7 @@ jobs:
         with:
           command: build
           args: '--release'
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v2
         with:
           name: ${{ steps.get_repository_name.outputs.REPOSITORY_NAME }}-${{ matrix.target }}
           path: ./target/release/${{ steps.get_repository_name.outputs.REPOSITORY_NAME }}${{ matrix.suffix }}
