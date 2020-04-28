@@ -86,7 +86,7 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: '--all-targets --all-features -- -D warnings -Dclippy::style -D clippy::pedantic -D clippy::cargo -A clippy::multiple_crate_versions'
+          args: '--all-targets --all-features -- -D warnings -Dclippy::style -D clippy::pedantic -D clippy::cargo'
   version:
     runs-on: ubuntu-latest
     steps:
