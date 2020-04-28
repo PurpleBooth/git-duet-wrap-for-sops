@@ -143,12 +143,8 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: version
-      - run: ls ./version
-        shell: bash
-      - run: cat ./version
-        shell: bash
       - id: get_version
-        run: 'echo ::set-output "name=VERSION::$(cat ./version/version)"'
+        run: 'echo ::set-output "name=VERSION::$(cat ./version)"'
         shell: bash
       - uses: actions/cache@v1
         with:
