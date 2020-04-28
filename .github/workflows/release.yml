@@ -144,6 +144,9 @@ jobs:
         with:
           name: version
       - run: ls ./version
+        shell: bash
+      - run: cat ./version
+        shell: bash
       - id: get_version
         run: 'echo ::set-output "name=VERSION::$(cat ./version/version)"'
         shell: bash
