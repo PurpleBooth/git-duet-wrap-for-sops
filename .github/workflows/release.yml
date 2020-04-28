@@ -85,7 +85,7 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: '--all-targets --all-features -- -D warnings -Dclippy::style -D clippy::pedantic -D clippy::cargo -A clippy::multiple_crate_versions'
+          args: '--all-targets --all-features -- -D warnings -Dclippy::style -D clippy::pedantic -D clippy::cargo'
   version:
     runs-on: ubuntu-latest
     steps:
@@ -94,7 +94,7 @@ jobs:
           lfs: true
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* || true
       - id: get_previous_version
-        run: echo ::set-output name=PREVIOUS_VERSION::$(git describe --tags "$(git rev-list --tags --max-count=1 || true)" || echo v0.0.0)
+        run: echo ::set-output name=PREVIOUS_VERSION::$(git describe --tags "$(git rev-list --tags --max-count=1)")
         shell: bash
       - id: semvers
         uses: WyriHaximus/github-action-next-semvers@master
@@ -143,6 +143,7 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: version
+      - run: ls ./version
       - id: get_version
         run: 'echo ::set-output "name=VERSION::$(cat ./version/version)"'
         shell: bash
