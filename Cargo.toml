@@ -1,0 +1,14 @@
+[package]
+name = "git-duet-wrap-for-sops"
+version = "0.1.0"
+authors = ["Billie Thompson <billie+git-duet-wrap-for-sops@billiecodes.com>"]
+edition = "2018"
+description = "A wrapper for the git duet commands that lets you leave your authors file encrypted"
+keywords = ["sops", "git-duet"]
+categories = ["command-line-utilities"]
+repository = "https://github.com/PurpleBooth/git-duet-wrap-for-sops"
+readme = "README.md"
+license = "Creative Commons Zero v1.0 Universal"
+
+[dependencies]
+dirs = "2.0"
