@@ -23,6 +23,7 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
+            ~/.cargo/bin
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions-rs/toolchain@v1
@@ -54,6 +55,7 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
+            ~/.cargo/bin
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions/download-artifact@v2
