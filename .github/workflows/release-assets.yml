@@ -42,7 +42,6 @@ jobs:
           name: ${{ steps.get_repository_name.outputs.REPOSITORY_NAME }}-${{ matrix.target }}
           path: ./target/release/${{ steps.get_repository_name.outputs.REPOSITORY_NAME }}${{ matrix.suffix }}
   release:
-    if: github.event.pull_request.merged == true && contains( github.event.pull_request.labels.*.name, 'release')
     needs:
       - build
     runs-on: ubuntu-latest
