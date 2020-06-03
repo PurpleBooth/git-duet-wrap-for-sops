@@ -87,7 +87,7 @@ jobs:
         shell: bash
       -
         id: get_version
-        run: "echo ::set-output name=VERSION::$(toml get Cargo.toml package.version | tail -c +2 | head -c -2)"
+        run: "echo ::set-output name=VERSION::v$(toml get Cargo.toml package.version | tail -c +2 | head -c -2)"
         shell: bash
       -
         env:
