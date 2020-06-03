@@ -69,6 +69,6 @@ fn command_output(command: String, args: Vec<String>) -> Result<String, String> 
         .and_then(|output| {
             str::from_utf8(&output.stdout)
                 .map_err(|message| message.to_string())
-                .map(|output| output.to_string())
+                .map(std::string::ToString::to_string)
         })
 }
