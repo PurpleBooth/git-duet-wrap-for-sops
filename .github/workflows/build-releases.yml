@@ -42,7 +42,7 @@ jobs:
         with:
           name: ${{ steps.get_repository_name.outputs.REPOSITORY_NAME }}-${{ matrix.target }}
           path: ./target/release/${{ steps.get_repository_name.outputs.REPOSITORY_NAME }}${{ matrix.suffix }}
-    release:
+  release:
       needs:
         - build
       runs-on: ubuntu-latest
