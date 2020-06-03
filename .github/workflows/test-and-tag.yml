@@ -141,5 +141,5 @@ jobs:
           git merge --ff-only -
       - shell: bash
         run: |
-          git tag "$(cat ./version/version)"
+          git tag -a -m "Release $(cat ./version/version)" "$(cat ./version/version)"
           git push --follow-tags
