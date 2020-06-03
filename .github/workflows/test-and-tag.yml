@@ -89,8 +89,8 @@ jobs:
           toolchain: nightly
           default: true
       - uses: actions/checkout@v2
-        env:
-          GITHUB_TOKEN: '${{ secrets.COMMITTER_TOKEN }}'
+        with:
+          token: '${{ secrets.COMMITTER_TOKEN }}'
       - uses: actions/cache@v2
         with:
           path: |
