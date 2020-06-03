@@ -1,9 +1,39 @@
+name: automerge
 'on':
   push:
     branches:
       - '*'
   pull_request: null
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+      - id: get_previous_version
+        run: echo ::set-output name=PREVIOUS_VERSION::$(git describe --tags "$(git rev-list --tags --max-count=1)")
+        shell: bash
+      - id: semvers
+        uses: WyriHaximus/github-action-next-semvers@master
+        with:
+          version: '${{ steps.get_previous_version.outputs.PREVIOUS_VERSION }}'
+      - run: mkdir -p ./version
+      - if: "!contains(github.event.head_commit.message, 'BC BREAK') && !contains(github.event.head_commit.message, 'Signed-off-by: dependabot-preview[bot] <support@dependabot.com>')"
+        run: echo "$VERSION" >./version/version
+        env:
+          VERSION: ${{ steps.semvers.outputs.v_minor }}
+      - if: "contains(github.event.head_commit.message, 'Signed-off-by: dependabot-preview[bot] <support@dependabot.com>')"
+        run: echo "$VERSION" >./version/version
+        env:
+          VERSION: ${{ steps.semvers.outputs.v_patch }}
+      - run: echo "$VERSION" > ./version/version
+        env:
+          VERSION: ${{ steps.semvers.outputs.v_major }}
+        if: "contains(github.event.head_commit.message, 'BC BREAK')"
+      - uses: actions/upload-artifact@master
+        with:
+          name: version
+          path: ./version/version
   check:
     runs-on: ubuntu-latest
     steps:
@@ -19,7 +49,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
+          toolchain: nightly
           default: true
       - uses: actions-rs/cargo@v1
         with:
@@ -44,7 +74,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
+          toolchain: nightly
           default: true
       - uses: actions-rs/cargo@v1
         with:
@@ -75,12 +105,30 @@ jobs:
         with:
           command: clippy
           args: '--all-targets --all-features -- -D warnings -Dclippy::style -D clippy::pedantic -D clippy::cargo'
-  version:
+  merge-and-push:
+    if: contains( github.event.pull_request.labels.*.name, 'dependencies') || github.ref == 'refs/heads/master'
+    needs:
+      - test
+      - lints
+      - check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions-rs/toolchain@v1
         with:
-          lfs: true
+          profile: minimal
+          toolchain: nightly
+          default: true
+      - uses: actions/checkout@v2
+        env:
+          GITHUB_TOKEN: '${{ secrets.COMMITTER_TOKEN }}'
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            ~/.cargo/bin
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
       - id: get_previous_version
         run: echo ::set-output name=PREVIOUS_VERSION::$(git describe --tags "$(git rev-list --tags --max-count=1)")
@@ -89,7 +137,7 @@ jobs:
         uses: WyriHaximus/github-action-next-semvers@master
         with:
           version: '${{ steps.get_previous_version.outputs.PREVIOUS_VERSION }}'
-      - run: mkdir -p ./version
+            - run: mkdir -p ./version
       - if: "!contains(github.event.head_commit.message, 'BC BREAK') && !contains(github.event.head_commit.message, 'Signed-off-by: dependabot-preview[bot] <support@dependabot.com>')"
         run: echo "$VERSION" >./version/version
         env:
@@ -102,7 +150,26 @@ jobs:
         env:
           VERSION: ${{ steps.semvers.outputs.v_major }}
         if: "contains(github.event.head_commit.message, 'BC BREAK')"
-      - uses: actions/upload-artifact@v2
+      - shell: bash
+        run: |
+          sed -i'.bak' 's/version = \"[0-9.]\\{5,\\}\"/version = \"$(cat ./version/version)\"/1' Cargo.toml
+          rm Cargo.toml.bak
+      - uses: actions-rs/cargo@v1
         with:
-          name: version
-          path: ./version/version
+          command: generate-lockfile
+      - shell: bash
+        if: github.ref == 'refs/heads/master'
+        run: |
+          git config user.name "GitHub"
+          git config user.email "noreply@github.com"
+
+          git fetch
+      - shell: bash
+        if: contains( github.event.pull_request.labels.*.name, 'dependencies')
+        run: |
+          git checkout master
+          git merge --ff-only -
+      - shell: bash
+        run: |
+          git tag "$(cat ./version/version)"
+          git push --follow-tags
