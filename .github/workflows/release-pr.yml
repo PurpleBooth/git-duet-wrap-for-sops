@@ -83,5 +83,4 @@ jobs:
           token: ${{ secrets.COMITTER_TOKEN }}
           labels: release
           branch: release
-          branch-suffix: short-commit-hash
           commit-message: "Releasing ${{ steps.get_version.outputs.VERSION }}"
