@@ -31,6 +31,7 @@ jobs:
           toolchain: nightly
           default: true
       - uses: actions-rs/cargo@v1
+        with:
           command: build
           args: '--release'
       - id: get_repository_name
