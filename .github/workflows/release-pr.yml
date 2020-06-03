@@ -39,8 +39,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.COMITTER_TOKEN }}
       - uses: actions/cache@v2
         with:
           path: |
@@ -75,7 +73,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.COMITTER_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
         with:
           title: "Creating release ${{ steps.get_version.outputs.VERSION }}"
           token: ${{ secrets.COMITTER_TOKEN }}
