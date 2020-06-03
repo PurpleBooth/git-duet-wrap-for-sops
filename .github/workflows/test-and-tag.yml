@@ -128,7 +128,6 @@ jobs:
         with:
           command: generate-lockfile
       - shell: bash
-        if: github.ref == 'refs/heads/master'
         run: |
           git config user.name "GitHub"
           git config user.email "noreply@github.com"
@@ -141,5 +140,6 @@ jobs:
           git merge --ff-only -
       - shell: bash
         run: |
+          git commit -am "Release $(cat ./version/version)"
           git tag -a -m "Release $(cat ./version/version)" "$(cat ./version/version)"
           git push --follow-tags
