@@ -1,6 +1,7 @@
 'on':
   push:
-    'master'
+    branches:
+      - 'master'
 jobs:
   version:
     if: "!contains(github.event.head_commit.message, 'Releasing v')"
