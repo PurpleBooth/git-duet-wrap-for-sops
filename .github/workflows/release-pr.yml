@@ -70,6 +70,9 @@ jobs:
         shell: bash
         env:
           VERSION: '${{ steps.get_version.outputs.VERSION }}'
+      - uses: actions-rs/cargo@v1
+        with:
+          command: generate-lockfile
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2
         env:

@@ -34,7 +34,6 @@ jobs:
       - name: automerge
         uses: "pascalgn/automerge-action@7ab42e888a333bf77ce865bc84fedc6a365a3548"
         env:
-          GITHUB_TOKEN: "${{ secrets.COMMITTER_TOKEN }}"
           MERGE_METHOD: rebase
           MERGE_LABELS: "release"
           MERGE_DELETE_BRANCH: true
