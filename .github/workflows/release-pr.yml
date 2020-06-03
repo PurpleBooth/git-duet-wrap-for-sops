@@ -73,17 +73,12 @@ jobs:
         shell: bash
         env:
           VERSION: '${{ steps.get_version.outputs.VERSION }}'
-      - name: Create commits
-        run: |
-          git config user.name 'GitHub Action[bot]'
-          git config user.email '<actions@github.com>'
-          git commit -am "Releasing $VERSION"
-        env:
-          VERSION: '${{ steps.get_version.outputs.VERSION }}'
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2
         env:
           GITHUB_TOKEN: ${{ secrets.COMITTER_TOKEN }}
         with:
+          title: "Creating release ${{ steps.get_version.outputs.VERSION }}"
           token: ${{ secrets.COMITTER_TOKEN }}
           labels: release
+          commit-message: "Releasing ${{ steps.get_version.outputs.VERSION }}"
