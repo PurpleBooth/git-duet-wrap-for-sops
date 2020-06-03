@@ -137,7 +137,7 @@ jobs:
         uses: WyriHaximus/github-action-next-semvers@master
         with:
           version: '${{ steps.get_previous_version.outputs.PREVIOUS_VERSION }}'
-            - run: mkdir -p ./version
+      - run: mkdir -p ./version
       - if: "!contains(github.event.head_commit.message, 'BC BREAK') && !contains(github.event.head_commit.message, 'Signed-off-by: dependabot-preview[bot] <support@dependabot.com>')"
         run: echo "$VERSION" >./version/version
         env:
