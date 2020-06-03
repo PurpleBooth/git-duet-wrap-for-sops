@@ -65,10 +65,10 @@ fn main() {
 fn command_output(command: String, args: Vec<String>) -> Result<String, String> {
     let output = Command::new(command).args(args).output();
     output
-        .or_else(|err| Err(format!("Error: {}", err)))
+        .map_err(|err| format!("Error: {}", err))
         .and_then(|output| {
             str::from_utf8(&output.stdout)
-                .or_else(|message| Err(message.to_string()))
-                .and_then(|output| Ok(output.to_string()))
+                .map_err(|message| message.to_string())
+                .map(|output| output.to_string())
         })
 }
