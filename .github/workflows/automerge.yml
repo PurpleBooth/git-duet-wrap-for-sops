@@ -26,9 +26,6 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.COMMITTER_TOKEN }}"
           MERGE_METHOD: rebase
-          MERGE_FILTER_AUTHOR: dependabot-preview[bot]
-          MERGE_LABELS: ""
+          MERGE_LABELS: "dependencies"
           MERGE_DELETE_BRANCH: true
-          UPDATE_METHOD: "rebase"
-          UPDATE_LABELS: ""
 
