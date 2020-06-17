@@ -1,6 +1,6 @@
 [package]
 name = "git-duet-wrap-for-sops"
-version = "0.33.0"
+version = "0.34.0"
 authors = ["Billie Thompson <billie+git-duet-wrap-for-sops@billiecodes.com>"]
 edition = "2018"
 description = "A wrapper for the git duet commands that lets you leave your authors file encrypted"
