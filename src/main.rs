@@ -1,12 +1,6 @@
 use std::{
-    env,
-    fs::File,
-    io::prelude::*,
-    os::unix::process::CommandExt,
-    path::PathBuf,
-    process,
-    process::Command,
-    str,
+    env, fs::File, io::prelude::*, os::unix::process::CommandExt, path::PathBuf, process,
+    process::Command, str,
 };
 
 fn main() {
