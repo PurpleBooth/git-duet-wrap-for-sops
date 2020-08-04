@@ -1,6 +1,6 @@
 [package]
 name = "git-duet-wrap-for-sops"
-version = "0.46.0"
+version = "0.46.1"
 authors = [
   "Billie Thompson <billie+git-duet-wrap-for-sops@billiecodes.com>"
 ]
