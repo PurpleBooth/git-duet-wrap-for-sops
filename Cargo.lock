@@ -91,7 +91,7 @@ dependencies = [
 
 [[package]]
 name = "git-duet-wrap-for-sops"
-version = "0.46.18"
+version = "0.46.19"
 dependencies = [
  "dirs",
 ]
