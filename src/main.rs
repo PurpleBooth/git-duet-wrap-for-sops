@@ -40,7 +40,7 @@ fn main() {
     dir.push("authors.yml");
 
     let mut f = File::create(&dir).expect("Couldn't create temporary file");
-    f.write_all(&decrypted_author_file.as_bytes())
+    f.write_all(decrypted_author_file.as_bytes())
         .expect("Couldn't write to temporary file");
 
     env::set_var("GIT_DUET_AUTHORS_FILE", dir);
@@ -48,7 +48,7 @@ fn main() {
     brew_location.push(script_name);
     let cmd = brew_location;
     let err = process::Command::new(cmd).args(arguments).exec();
-    panic!("panic!: {}", err)
+    panic!("panic!: {}", err);
 }
 
 fn command_output(command: String, args: Vec<String>) -> Result<String, String> {
