@@ -1,4 +1,23 @@
+queue_rules:
+- name: default
+  conditions:
+  - status-success=security-audit
+  - status-success=check
+  - status-success=version
+  - status-success=test (macos-latest, echo nothing-to-install)
+  - status-success=test (ubuntu-latest, sudo apt-get install -y libxcb-shape0-dev
+    libxcb-xfixes0-dev)
+  - status-success=lints
+
 pull_request_rules:
+- name: request review on external contributor
+  conditions:
+  - -author=PurpleBooth
+  actions:
+    assign:
+      add_users:
+      - PurpleBooth
+
 - name: automatic rebase for dependencies
   conditions:
   - status-success=security-audit
@@ -9,8 +28,9 @@ pull_request_rules:
     libxcb-xfixes0-dev)
   - status-success=lints
   - base=main
-  - label=dependencies
+  - author~=^dependabot(|-preview)\[bot\]$
   actions:
-    merge:
-      strict: smart+fasttrack
-      method: merge
+    queue:
+      method: rebase
+      rebase_fallback: merge
+      name: default
