@@ -13,4 +13,4 @@ readme = "README.md"
 license = "Creative Commons Zero v1.0 Universal"
 
 [dependencies]
-dirs = "3.0"
+dirs = "4.0"
