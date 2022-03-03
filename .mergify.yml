@@ -1,13 +1,19 @@
 queue_rules:
   - name: default
     conditions:
-      - status-success=security-audit
-      - status-success=check
-      - status-success=version
-      - status-success=test (macos-latest, echo nothing-to-install)
-      - status-success=test (ubuntu-latest, sudo apt-get install -y libxcb-shape0-dev
-        libxcb-xfixes0-dev)
-      - status-success=lints
+      - status-success=lint-markdown / lint-markdown
+      - status-success=commit-checks / version
+      - status-success=rust-checks / check
+      - status-success=rust-checks / test (macos-latest)
+      - status-success=rust-checks / test (ubuntu-latest)
+      - status-success=rust-checks / test (windows-latest)
+      - status-success=rust-checks / lints (macos-latest)
+      - status-success=rust-checks / lints (ubuntu-latest)
+      - status-success=rust-checks / lints (windows-latest)
+      - status-success=rust-checks / security-audit
+      - status-success=rust-checks / bench (macos-latest)
+      - status-success=rust-checks / bench (ubuntu-latest)
+      - status-success=rust-checks / bench (windows-latest)
 
 pull_request_rules:
   - name: request review on external contributor
@@ -20,13 +26,19 @@ pull_request_rules:
 
   - name: automatic rebase for dependencies
     conditions:
-      - status-success=security-audit
-      - status-success=check
-      - status-success=version
-      - status-success=test (macos-latest, echo nothing-to-install)
-      - status-success=test (ubuntu-latest, sudo apt-get install -y libxcb-shape0-dev
-        libxcb-xfixes0-dev)
-      - status-success=lints
+      - status-success=lint-markdown / lint-markdown
+      - status-success=commit-checks / version
+      - status-success=rust-checks / check
+      - status-success=rust-checks / test (macos-latest)
+      - status-success=rust-checks / test (ubuntu-latest)
+      - status-success=rust-checks / test (windows-latest)
+      - status-success=rust-checks / lints (macos-latest)
+      - status-success=rust-checks / lints (ubuntu-latest)
+      - status-success=rust-checks / lints (windows-latest)
+      - status-success=rust-checks / security-audit
+      - status-success=rust-checks / bench (macos-latest)
+      - status-success=rust-checks / bench (ubuntu-latest)
+      - status-success=rust-checks / bench (windows-latest)
       - base=main
       - author~=^dependabot(|-preview)\[bot\]$
     actions:
